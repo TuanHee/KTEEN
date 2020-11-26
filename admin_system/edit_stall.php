@@ -22,43 +22,6 @@ if (isset($_GET['su'])) {
             $email = $row['email'];
         }
     }
-    $sql = "SELECT weekday, start_time, end_time FROM opening_time WHERE stall_ID = '$stall_ID';";
-    $result = mysqli_query($conn, $sql);
-    $monday = $tuesday = $wednesday = $thursday = $friday = $saturday = $sunday = "";
-    if(mysqli_num_rows($result) > 0){
-        $ckd = "checked";
-        while ($row = mysqli_fetch_assoc($result)) {
-            if($row['weekday'] == 0){
-                $monday = $ckd;
-                $monday_start = $row['start_time'];
-                $monday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 1) {
-                $tuesday = $ckd;
-                $tuesday_start = $row['start_time'];
-                $tuesday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 2) {
-                $wednesday = $ckd;
-                $wednesday_start = $row['start_time'];
-                $wednesday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 3) {
-                $thursday = $ckd;
-                $thursday_start = $row['start_time'];
-                $thursday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 4) {
-                $friday = $ckd;
-                $friday_start = $row['start_time'];
-                $friday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 5) {
-                $saturday = $ckd;
-                $saturday_start = $row['start_time'];
-                $saturday_end = $row['end_time'];
-            }elseif ($row['weekday'] == 6) {
-                $sunday = $ckd;
-                $sunday_start = $row['start_time'];
-                $sunday_end = $row['end_time'];
-            }
-        }
-    }
 }else{
     header("location: index.php");
 }
@@ -260,132 +223,6 @@ if (isset($_POST["edit_stall_image"])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="h3">
-                                Opening time
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-lg-2"></div>
-                                <div class="col-lg-7">
-                                    <table class="table table-sm table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Weekday</th>
-                                                <th>opening time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr <?= ($sunday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="sunday" class="cb-weekday" <?= $sunday ?>>
-                                                </td>
-                                                <td>Sunday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="sunday_start" class="form-control" <?= ($sunday == "")? 'disabled': 'value="'. $sunday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="sunday_end" class="form-control" <?= ($sunday == "")? 'disabled': 'value="'. $sunday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($monday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="monday" class="cb-weekday" <?= $monday ?>>
-                                                </td>
-                                                <td>Monday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="monday_start" class="form-control" <?= ($monday == "")? 'disabled': 'value="'. $monday_start .'" required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="monday_end" class="form-control" <?= ($monday == "")? 'disabled': 'value="'. $monday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($tuesday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="tuesday" class="cb-weekday" <?= $tuesday ?>>
-                                                </td>
-                                                <td>Tuesday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="tuesday_start" class="form-control" <?= ($tuesday == "")? 'disabled': 'value="'. $tuesday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="tuesday_end" class="form-control" <?= ($tuesday == "")? 'disabled': 'value="'. $tuesday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($wednesday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="wednesday" class="cb-weekday" <?= $wednesday ?>>
-                                                </td>
-                                                <td>Wednesday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="wednesday_start" class="form-control" <?= ($wednesday == "")? 'disabled': 'value="'. $wednesday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="wednesday_end" class="form-control" <?= ($wednesday == "")? 'disabled': 'value="'. $wednesday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($thursday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="thursday" class="cb-weekday" <?= $thursday ?>>
-                                                </td>
-                                                <td>Thursday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="thursday_start" class="form-control" <?= ($thursday == "")? 'disabled': 'value="'. $thursday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="thursday_end" class="form-control" <?= ($thursday == "")? 'disabled': 'value="'. $thursday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($friday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="friday" class="cb-weekday" <?= $friday ?>>
-                                                </td>
-                                                <td>Friday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="friday_start" class="form-control" <?= ($friday == "")? 'disabled': 'value="'. $friday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="friday_end" class="form-control" <?= ($friday == "")? 'disabled': 'value="'. $friday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr <?= ($saturday != "")? 'class="table-success"': ''; ?>>
-                                                <td>
-                                                    <input type="checkbox" name="satuday" class="cb-weekday" <?= $saturday ?>>
-                                                </td>
-                                                <td>Saturday</td>
-                                                <td>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="time" name="saturday_start" class="form-control" <?= ($saturday == "")? 'disabled': 'value="'. $saturday_start .'"required'; ?>>
-                                                        <div class="input-group-prepend input-group-append">
-                                                            <span class="input-group-text">-</span>
-                                                        </div>
-                                                        <input type="time" name="saturday_end" class="form-control" <?= ($saturday == "")? 'disabled': 'value="'. $saturday_end .'"required'; ?>>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-lg-3"></div>
-                            </div>
                             <div class="row">
                                 <div class="col text-right">
                                     <button class="btn text-danger">Cancel</button>
@@ -400,19 +237,6 @@ if (isset($_POST["edit_stall_image"])) {
     </main>
     <script src="../js/show_input_image.js"></script>
     <script type="text/javascript">
-        $(".cb-weekday").change(function() {
-            var table_row = $(this).parent().parent();
-            table_row.toggleClass("table-success");
-            var input_time = table_row.find("input[type='time']");
-            if(input_time.prop("required")){
-                input_time.prop("required", false);
-                input_time.prop("disabled", true);
-            }else{
-                input_time.prop("required", true);
-                input_time.prop("disabled", false);
-            }
-        });
-
         $("#input-stall-image").change(function() {
             readURL(this);
         });

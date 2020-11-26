@@ -12,16 +12,7 @@ if (isset($_POST['stall_username'])) {
 	if(mysqli_num_rows($result) == 1) {
 		$stall_ID = mysqli_fetch_assoc($result)['ID'];
 	}
-	// get opening time of the stall
-	$sql = "SELECT start_time, end_time FROM opening_time WHERE stall_ID = '$stall_ID' AND weekday = WEEKDAY(CURDATE());";
-	$result = mysqli_query($conn, $sql);
-	$is_working_day = mysqli_num_rows($result) == 1;
-	if($is_working_day){
-		$time = mysqli_fetch_assoc($result);
-		$start_time = strtotime($time['start_time']);
-		$end_time = strtotime($time['end_time']);
-	}
-
+	
 	$page =@ $_POST['page'];
 	if ($page == 0 || $page == 1) {
 		$page = 0;
@@ -35,7 +26,6 @@ if (isset($_POST['stall_username'])) {
 	}
 	$sql = "SELECT 
 	stall.username AS username, 
-	stall.status AS status,
 	food.ID AS food_id,
 	food.name AS food_name, 
 	food.image AS image, 
@@ -44,32 +34,11 @@ if (isset($_POST['stall_username'])) {
 	$result = mysqli_query($conn, $sql);
 	if(mysqli_num_rows($result) > 0){
 		while ($row = mysqli_fetch_assoc($result)) {
-			$image = $row['image'];
-			if ($row['status'] == '0') {
-				$status = false;
-			}else if($row['status'] == '1') {
-				$status = true;
-			}else{
-				if($is_working_day){
-					if($start_time < $current_time && $end_time > $current_time){
-						$status = true;
-					}else{
-						$status = false;
-					}
-				}else{
-					$status = false;
-				}
-			}
-			
+			$image = $row['image'];		
 ?>
 <div class="col-md-3 p-2">
-	<div class="k-card card k-hover-shadow h-100 <?= $r = ($status)? 'stall_menu' : '' ?>" style="cursor: pointer;<?= $r = ($status)? '' : 'filter: blur(1px);' ?>" data-food_id="<?= $row['food_id']; ?>">
+	<div class="k-card card k-hover-shadow h-100 <?=  'stall_menu' ?>" style="cursor: pointer;" data-food_id="<?= $row['food_id']; ?>">
 		<div style="position: relative;overflow: hidden;"> 
-			<?php if (!$status) { ?>
-				<span class="h4 text-white" style="position: absolute;top: 50%;left: 50%;z-index: 2;transform: rotate(-30deg) translate(-50%, -50%);">
-					Closed
-				</span>
-			<?php } ?>
 			<img src="../images/<?= $row['username']; ?>/menu/<?= $image; ?>" class="items" height="100" alt="" style="width: 100%;height: 200px;align-self: center;vertical-align: center;" />
 		</div>
 		<div class="card-body" style="position: relative;">

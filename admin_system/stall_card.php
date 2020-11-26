@@ -7,7 +7,7 @@ $keyword = "";
 if(isset($_GET['k'])){
 	$keyword = " WHERE stall_name LIKE '%".$_GET['k']."%'";
 }
-$sql = "SELECT ID, username, stall_name, owner_name, stall_image, owner_image, email, NRIC, contact_no, status FROM stall".$keyword;
+$sql = "SELECT ID, username, stall_name, owner_name, stall_image, owner_image, email, NRIC, contact_no FROM stall".$keyword;
 $result = $conn -> query($sql);
 
 if($result ->num_rows >0){
@@ -20,7 +20,6 @@ if($result ->num_rows >0){
 		$NRIC = $row['NRIC'];
         $stall_image = $row['stall_image'];
 		$owner_image = $row['owner_image'];
-		$status = $row['status'];
 ?>
 <div class="col-12 col-md-6 col-lg-4 p-2">
 	<a href="#view<?php echo $stall_id; ?>" data-toggle="modal" style="text-decoration: none;color: black;">
@@ -36,15 +35,6 @@ if($result ->num_rows >0){
 						</h5>
 						<div class="card-text">
 							<?php echo $owner_name; ?>
-						</div>
-						<div class="card-text">
-							<?php if ($status == '0') { ?>
-								<small class="text-danger">close</small>
-							<?php }else if($status == '1') { ?>
-                                <small class="text-success">open</small>
-							<?php }else{ ?>
-								<small class="text-primary">auto</small>
-                            <?php } ?>
 						</div>
 					</div>
 				</div>
@@ -102,19 +92,7 @@ if($result ->num_rows >0){
         						<?php echo $NRIC; ?>
         					</div>
         				</div>
-        				<div class="col">
-        					<small class="text-muted col">Status</small>
-        					<div class="w-100"></div>
-        					<div class="col">
-        						<?php if ($status == '0') { ?>
-                                    <small class="text-danger">close</small>
-                                <?php }else if($status == '1') { ?>
-                                    <small class="text-success">open</small>
-                                <?php }else{ ?>
-                                    <small class="text-primary">auto</small>
-                                <?php } ?>
-        					</div>
-        				</div>
+        				
         			</div>
         		</div>
             </div>

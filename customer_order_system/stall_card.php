@@ -18,7 +18,7 @@ if (isset($_POST['search_stall_name'])) {
 	}else{
 		$page = ($page * 8) - 8;
 	}
-	$sql = "SELECT ID, username, stall_name, status FROM stall ". $search ." LIMIT ". $page .", 8;";
+	$sql = "SELECT ID, username, stall_name FROM stall ". $search ." LIMIT ". $page .", 8;";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {
@@ -26,50 +26,11 @@ if (isset($_POST['search_stall_name'])) {
 			$stall_username = $row['username'];
 			$stallname = $row['stall_name'];
 			
-			$time_sql = "SELECT start_time, end_time FROM opening_time WHERE stall_ID = '$stall_ID' AND weekday = WEEKDAY(CURDATE());";
-			$time_result = mysqli_query($conn, $time_sql);
-			$is_workday = mysqli_num_rows($time_result) == 1;
-			if($is_workday){
-				$time = mysqli_fetch_assoc($time_result);
-				$start_time = strtotime($time['start_time']);
-				$end_time = strtotime($time['end_time']);
-			}
 	?>
 	<div class="col-sm-6 col-md-4 col-lg-3 p-2">
 		<div class="k-card card k-hover-shadow h-100 stall" style="cursor: pointer;" data-stall="<?= $stall_username; ?>">
 			<div style="position: relative;overflow: hidden;"> 
 				<img src="../images/<?= $stall_username; ?>/stall.jpg" class="items" height="100" alt="" style="width: 100%;height: 200px;align-self: center;vertical-align: center;" />
-				<?php if($row['status'] == 0) { ?>
-				<span class="bg-danger" style="position: absolute;right: 0;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);"></span>
-				<span style="position: absolute;right: 15px;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);background-color: rgba(255, 0, 0, 0.5);"></span>
-				<span class="text-white px-3 py-1" style="position: absolute;right: 12px;bottom: 0;">Closing</span>
-				<?php }else if ($row['status'] == 1) { ?>
-				<span class="bg-success" style="position: absolute;right: 0;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);"></span>
-				<span style="position: absolute;right: 15px;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);background-color: rgba(0, 255, 0, 0.5);"></span>
-				<span class="text-white px-3 py-1" style="position: absolute;right: 12px;bottom: 0;">Opening</span>
-				<?php
-				}else{
-					if($is_workday){
-						if($start_time < $current_time && $end_time > $current_time){
-					?>
-					<span class="bg-success" style="position: absolute;right: 0;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);"></span>
-					<span style="position: absolute;right: 15px;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);background-color: rgba(0, 255, 0, 0.5);"></span>
-					<span class="text-white px-3 py-1" style="position: absolute;right: 12px;bottom: 0;">Opening</span>
-					<?php }else{ ?>
-					<span class="bg-danger" style="position: absolute;right: 0;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);"></span>
-					<span style="position: absolute;right: 15px;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);background-color: rgba(255, 0, 0, 0.5);"></span>
-					<span class="text-white px-3 py-1" style="position: absolute;right: 12px;bottom: 0;">Closing</span>
-					<?php
-						}
-					}else{
-					?>
-					<span class="bg-danger" style="position: absolute;right: 0;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);"></span>
-					<span style="position: absolute;right: 15px;bottom: 0;width: 100px;height: 30px;transform: skew(45deg);background-color: rgba(255, 0, 0, 0.5);"></span>
-					<span class="text-white px-3 py-1" style="position: absolute;right: 12px;bottom: 0;">Closing</span>
-				<?php
-					}
-				}
-				?>
 			</div>
 			<div class="card-body">
 				<div class="card-text">
